@@ -40,6 +40,7 @@ const AuthForm = () => {
         const data = await res.json();
         loginCtx.updateToken(data.idToken);
         loginCtx.updateIsLoggedin(true);
+        localStorage.setItem("lastLoggedin", Date.now());
       } else {
         const data = await res.json();
         let errorMessage = "Authentication Failed";
@@ -66,6 +67,7 @@ const AuthForm = () => {
         const data = await res.json();
         loginCtx.updateToken(data.idToken);
         loginCtx.updateIsLoggedin(true);
+        localStorage.setItem("lastLoggedin", Date.now());
       } else {
         const data = await res.json();
         let errorMessage = "Authentication Failed";

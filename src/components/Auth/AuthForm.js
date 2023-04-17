@@ -1,7 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 
 import classes from "./AuthForm.module.css";
 import env from "../../env";
+import LoginContext from "../../store/login-context";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,13 +13,14 @@ const AuthForm = () => {
   const email = useRef();
   const password = useRef();
 
+  const loginCtx = useContext(LoginContext);
+
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
 
   async function submitHandler(e) {
     e.preventDefault();
-    console.log("submitted");
     setIsLoading(true);
     if (isLogin) {
       const res = await fetch(loginEndpoint, {
@@ -35,7 +37,8 @@ const AuthForm = () => {
       setIsLoading(false);
       if (res.ok) {
         const data = await res.json();
-        console.log(data.idToken);
+        loginCtx.updateToken(data.idToken);
+        loginCtx.updateIsLoggedin(true);
       } else {
         const data = await res.json();
         let errorMessage = "Authentication Failed";
@@ -58,6 +61,9 @@ const AuthForm = () => {
       });
       setIsLoading(false);
       if (res.ok) {
+        const data = await res.json();
+        loginCtx.updateToken(data.idToken);
+        loginCtx.updateIsLoggedin(true);
       } else {
         const data = await res.json();
         let errorMessage = "Authentication Failed";

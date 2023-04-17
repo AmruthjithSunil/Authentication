@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import classes from "./MainNavigation.module.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import LoginContext from "../../store/login-context";
 
 const MainNavigation = () => {

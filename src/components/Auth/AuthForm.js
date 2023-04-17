@@ -1,4 +1,5 @@
 import { useState, useRef, useContext } from "react";
+import { Redirect } from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
 import env from "../../env";
@@ -48,6 +49,7 @@ const AuthForm = () => {
         alert(errorMessage);
       }
     } else {
+      // sign up
       const res = await fetch(signupEndpoint, {
         method: "POST",
         body: JSON.stringify({
@@ -77,6 +79,7 @@ const AuthForm = () => {
 
   return (
     <section className={classes.auth}>
+      {loginCtx.isLoggedin && <Redirect to="/profile" replace={true} />}
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
       <form onSubmit={submitHandler}>
         <div className={classes.control}>
